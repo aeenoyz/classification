@@ -346,13 +346,13 @@ const TREE_STEPS=[
  {title:'12마리의 펭귄', render(){
    drawPlot({points:SAMPLE,labels:true});
    legend.innerHTML=legendHTML(); hint.textContent='점 옆의 숫자는 표의 번호입니다.';
-   panel.innerHTML=`<h2>남극 파머 기지의 펭귄 12마리</h2>
+   panel.innerHTML=`<h2>남극 파머 기지의 펭귄</h2>
    <p>남극 파머 기지 주변 섬에서 연구자들이 직접 잰 펭귄 측정 기록 중 12마리를 골랐습니다.</p>
    <ul class="tight"><li><b>부리 길이</b>: 부리 뿌리부터 끝까지의 길이</li><li><b>부리 깊이</b>: 부리의 위아래 두께</li></ul>
    <div class="tablewrap"><table><thead><tr><th class="l">번호</th><th class="l">종 (정답)</th><th>부리 길이</th><th>부리 깊이</th></tr></thead><tbody>
    ${SAMPLE.map(p=>`<tr><td class="l">${p.id}</td><td class="l">${spTag(p.s)}</td><td>${fnum(p.L)}</td><td>${fnum(p.D)}</td></tr>`).join('')}
    </tbody></table></div>
-   <p class="muted">그래프를 보면 세 종이 꽤 잘 모여 있죠. 사람 눈에는 선 두 개면 나눌 수 있을 것 같아 보입니다. 컴퓨터는 그 선을 어떻게 찾을까요?</p>`;
+   <p class="muted"></p>`;
  }},
  {title:'결정트리는 스무고개', render(){
    drawPlot({points:SAMPLE,labels:true,lines:[{f:'L',t:ROOT.t,label:'?',dash:'6 5',color:'var(--muted)',w:2}]});
