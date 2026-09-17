@@ -102,8 +102,8 @@ ul.tight li{margin-bottom:6px}
 <div class="wrap">
   <header class="top">
     <div>
-      <h1>펭귄 12마리로 배우는 머신러닝</h1>
-      <p>부리 길이와 부리 깊이, 두 가지 측정값만으로 펭귄의 종을 맞혀 봅니다.</p>
+      <h1>펭귄데이터로 배우는 머신러닝 분류 알고리즘</h1>
+      <p>부리 길이와 부리 깊이로 펭귄의 종을 맞혀 봅니다.</p>
     </div>
     <div class="tabs" role="tablist">
       <button role="tab" id="tab-tree" aria-selected="true">1. 결정트리</button>
@@ -347,7 +347,7 @@ const TREE_STEPS=[
    drawPlot({points:SAMPLE,labels:true});
    legend.innerHTML=legendHTML(); hint.textContent='점 옆의 숫자는 표의 번호입니다.';
    panel.innerHTML=`<h2>남극 파머 기지의 펭귄 12마리</h2>
-   <p>남극 파머 기지 주변 섬에서 연구자들이 직접 잰 펭귄 측정 기록 중 12마리를 골랐습니다. 우리가 쓸 특징은 딱 두 가지예요.</p>
+   <p>남극 파머 기지 주변 섬에서 연구자들이 직접 잰 펭귄 측정 기록 중 12마리를 골랐습니다.</p>
    <ul class="tight"><li><b>부리 길이</b>: 부리 뿌리부터 끝까지의 길이</li><li><b>부리 깊이</b>: 부리의 위아래 두께</li></ul>
    <div class="tablewrap"><table><thead><tr><th class="l">번호</th><th class="l">종 (정답)</th><th>부리 길이</th><th>부리 깊이</th></tr></thead><tbody>
    ${SAMPLE.map(p=>`<tr><td class="l">${p.id}</td><td class="l">${spTag(p.s)}</td><td>${fnum(p.L)}</td><td>${fnum(p.D)}</td></tr>`).join('')}
