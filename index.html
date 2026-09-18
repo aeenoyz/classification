@@ -472,11 +472,11 @@ const KNN_STEPS=[
    drawPlot({points:SAMPLE,labels:true,star:state.knnStar});
    legend.innerHTML=legendHTML(); hint.textContent='';
    panel.innerHTML=`<h2>가까운 이웃에게 물어보기</h2>
-   <p><b>k-최근접 이웃(k-Nearest Neighbors, kNN)</b>은 아주 단순한 생각에서 출발합니다.</p>
+   <p><b>k-최근접 이웃(k-Nearest Neighbors, kNN)</b>은 유유상종 알고리즘 입니다.</p>
    <div class="formula wrapok">"새 펭귄과 <b>가장 가까운 k마리</b>의 펭귄은 어떤 종인가? 그중 가장 많은 종으로 판단하자."</div>
-   <p>그래프의 별이 종을 모르는 새 펭귄입니다. 부리 길이 47.5mm, 부리 깊이 17.5mm예요.</p>
+   <p>그래프의 별이 종을 모르는 새 펭귄입니다. 부리 길이 47.5mm, 부리 깊이 17.5mm입니다.</p>
    <h3>결정트리와 다른 점</h3>
-   <ul class="tight"><li>결정트리는 데이터로 <b>규칙(질문)</b>을 만들어 두고, 예측할 때는 규칙만 씁니다.</li>
+   <ul class="tight"><li>결정트리는 데이터로 <b>규칙(질문)</b>을 만들어 두고, 예측할 때는 규칙만 씁니다. 경계를 학습했습니다.</li>
    <li>kNN은 미리 만드는 규칙이 없습니다. 학습 데이터를 <b>그대로 기억</b>해 두었다가, 예측할 때마다 모든 데이터와의 거리를 잽니다.</li></ul>
    <p class="muted">그래서 "가깝다"를 어떻게 잴지가 kNN의 핵심입니다.</p>`;
  }},
@@ -506,7 +506,7 @@ const KNN_STEPS=[
    ${votesHTML(res,k)}
    <div class="result best">k = ${k}일 때 예측: <b>${SPC[res.s].name}</b>${res.tie?' <span class="muted">(동점이라 가장 가까운 펭귄의 종을 따름)</span>':''}</div>
    <p>${k===1?'k = 1이면 가장 가까운 한 마리(8번 턱끈)만 보고 턱끈펭귄이라고 합니다. k를 3으로 바꿔 보세요.':`k를 바꾸면 예측이 달라질 수 있어요. k = 1일 때는 턱끈펭귄이었습니다.`}</p>
-   <p class="muted">참고로 앞에서 만든 결정트리는 이 펭귄을 <b>${SPC[tp].name}</b>으로 예측했어요. 모델마다 경계를 긋는 방식이 다르기 때문입니다.</p>
+   <p class="muted">참고로 앞에서 만든 결정트리는 이 펭귄을 <b>${SPC[tp].name}</b>으로 예측했습니. 모델마다 경계를 긋는 방식이 다르기 때문입니다.</p>
    ${knnTable(q,k,true,null)}`;
    panel.querySelectorAll('#kseg button').forEach(b=>b.onclick=()=>{state.k3=+b.dataset.k;KNN_STEPS[2].render()});
  }},
@@ -528,8 +528,8 @@ const KNN_STEPS=[
    <div class="result best">(${F.star.L.toFixed(1)}, ${F.star.D.toFixed(1)}) → <b>${SPC[res.s].name}</b></div>
    <h3>관찰해 볼 것</h3>
    <ul class="tight"><li>결정트리의 계단 경계와 달리, kNN의 경계는 데이터를 따라 <b>구불구불</b>합니다.</li>
-   <li>12마리만 기억한 상태에서 k를 11까지 키우면? 마릿수가 가장 많은 아델리 쪽으로 판단이 쏠립니다.</li>
-   <li>342마리를 기억시키면 경계가 훨씬 정교해지지만, 예측 한 번마다 342번의 거리 계산이 필요해요.</li></ul>`;
+   <li>12마리만 기억한 상태에서 k를 11까지 키우면 결과는 어떻게 되나요?</li>
+   <li>342마리를 기억시키면 경계가 훨씬 정교해집니다. 계산량은 어떻게 될까요?</li></ul>`;
    const kr=panel.querySelector('#kr'); kr.oninput=()=>{F.k=+kr.value;KNN_STEPS[3].render();panel.querySelector('#kr').focus()};
    panel.querySelector('#bd').onchange=e=>{F.boundary=e.target.checked;KNN_STEPS[3].render()};
    panel.querySelector('#fl').onchange=e=>{F.full=e.target.checked;KNN_STEPS[3].render()};
@@ -540,13 +540,10 @@ const KNN_STEPS=[
    legend.innerHTML=legendHTML(); hint.textContent='';
    panel.innerHTML=`<h2>kNN을 쓸 때 생각해 볼 점</h2>
    <div class="controls"><span class="muted">경계 비교</span><div class="seg" id="tk">${[1,5,11].map(v=>`<button data-k="${v}" class="${v===k?'on':''}">k = ${v}</button>`).join('')}</div></div>
-   <h3>1. k는 사람이 정해야 합니다</h3>
-   <p>k가 너무 작으면 이웃 한두 마리에 휘둘리고, 너무 크면 개체 수가 많은 종으로 쏠립니다. 이렇게 사람이 미리 정하는 값을 <b>하이퍼파라미터</b>라고 해요.</p>
-   <h3>2. 원이 왜 타원으로 보일까?</h3>
-   <p>그래프에서 가장 가까운 k마리를 감싼 선은 거리가 같은 점들의 모임, 즉 원입니다. 그런데 부리 길이 축은 28mm, 부리 깊이 축은 9mm 폭이라 화면에서 늘어나 보여요. 반대로 말하면 <b>값의 범위가 넓은 특징(부리 길이)이 거리에 더 큰 영향</b>을 준다는 뜻입니다. 그래서 실제로는 특징의 크기를 맞추는 전처리(표준화)를 합니다.</p>
-   <h3>3. 특징이 좋아야 거리도 의미가 있습니다</h3>
-   <p>부리 길이와 깊이는 연구자가 자로 잰, 종을 구분하는 데 의미 있는 값이라 거리가 곧 "닮은 정도"가 됐어요. <b>만약 펭귄의 사진만 있다면</b> 무엇과 무엇의 거리를 재야 할까요?</p>`;
-   panel.querySelectorAll('#tk button').forEach(b=>b.onclick=()=>{state.think.k=+b.dataset.k;KNN_STEPS[4].render()});
+   <h3>1. k는 누가 정하나요?</h3>
+   <h3>2. 그래프에서 가장 가까운 k마리를 감싼 선은 거리가 같은 점들의 모임, 원입니다. 그런데 왜 타원으로 보일까요?</h3>
+   <h3>3. 거리가 의미가 있으려면 무엇을 선택해야 할까요?</h3>
+      panel.querySelectorAll('#tk button').forEach(b=>b.onclick=()=>{state.think.k=+b.dataset.k;KNN_STEPS[4].render()});
  }}
 ];
 
