@@ -362,18 +362,18 @@ const TREE_STEPS=[
    <div class="formula">부리 길이 &lt; ○○ mm ? → 예 / 아니오</div>
    <p>질문 하나는 그래프 위에 그은 <b>축에 평행한 직선 하나</b>와 같아요. 선의 한쪽은 "예", 다른 쪽은 "아니오" 그룹이 됩니다.</p>
    <h3>좋은 질문이란?</h3>
-   <p>나눈 뒤 각 그룹이 <b>한 종류로 깔끔하게 모이는</b> 질문입니다. 그러려면 먼저 "얼마나 섞여 있는지"를 숫자로 잴 수 있어야겠죠.</p>
-   <p class="muted">여기서 학습이란, 가능한 질문들 중 가장 잘 나누는 질문(특징과 경계값)을 찾는 과정입니다.</p>`;
+   <p>나눈 뒤 각 그룹이 <b>한 종류로 깔끔하게 모이는</b> 질문입니다. 그러려면 먼저 "얼마나 섞여 있는지"를 숫자로 잴 수 있어야합니다.</p>
+   <p class="muted">여기서 학습이란, 가능한 질문들 중 데이터를 가장 잘 나누는 질문(특징과 경계값)을 찾는 과정입니다.</p>`;
  }},
  {title:'지니 불순도', render(){
    drawPlot({points:SAMPLE,labels:true});
    legend.innerHTML=legendHTML(); hint.textContent='';
    const g=giniFrac(SAMPLE);
-   panel.innerHTML=`<h2>섞인 정도를 숫자로: 지니 불순도</h2>
+   panel.innerHTML=`<h2>얼마나 섞여있는지 정도를 숫자로: 지니 불순도</h2>
    <p>한 그룹에서 펭귄 두 마리를 무작위로(복원추출) 뽑았을 때, <b>두 마리의 종이 다를 확률</b>이 지니 불순도입니다.</p>
    <div class="formula">G = 1 − (p<sub>아델리</sub>² + p<sub>턱끈</sub>² + p<sub>젠투</sub>²)</div>
-   <p class="muted">p는 그룹 안에서 각 종이 차지하는 비율입니다. Σp²는 "두 마리가 같은 종일 확률"이에요.</p>
-   <h3>감 잡기</h3>
+   <p class="muted">p는 그룹 안에서 각 종이 차지하는 비율입니다. Σp²는 "두 마리가 같은 종일 확률"입니다.</p>
+   <h3>지니 불순도 예시</h3>
    <div class="tablewrap"><table><thead><tr><th class="l">그룹 상태</th><th class="l">계산</th><th>G</th></tr></thead><tbody>
    <tr><td class="l">전부 한 종</td><td class="l">1 − 1²</td><td>0</td></tr>
    <tr><td class="l">두 종이 반반</td><td class="l">1 − (0.5² + 0.5²)</td><td>0.5</td></tr>
@@ -381,7 +381,7 @@ const TREE_STEPS=[
    <h3>우리 12마리는?</h3>
    ${countsHTML(SAMPLE)}
    <div class="formula">${giniExpr(SAMPLE)} = 1 − 50/144 = <b>${fstr(g)}</b> ≈ <b>${dec(g.n/g.d)}</b></div>
-   <p>지금은 꽤 섞여 있습니다. 이 값을 가장 많이 낮춰 주는 질문을 찾아봅시다.</p>`;
+   <p>현재 상태에서는 모든 종이 섞여 있습니다(지니 불순도 높음). 이 값을 가장 많이 낮춰 주는 질문을 찾아봅시다.</p>`;
  }},
  {title:'첫 번째 질문 찾기', render(fast){
    const region={x0:XD[0],x1:XD[1],y0:YD[0],y1:YD[1]};
@@ -419,8 +419,8 @@ const TREE_STEPS=[
    const q1=state.treeStar[ROOT.f]<ROOT.t, q2=state.treeStar[SECOND.f]<SECOND.t;
    panel.innerHTML=`<h2>완성된 결정트리</h2>
    <div class="treebox">${treeDiagram(pr.path)}</div>
-   <p>질문 두 개로 12마리를 모두 맞히는 트리가 만들어졌습니다. 그래프에서 칸이 <b>계단 모양 직사각형</b>으로 나뉘는 것이 결정트리 경계의 특징이에요.</p>
-   <h3>새 펭귄 (${state.treeStar.L.toFixed(1)}, ${state.treeStar.D.toFixed(1)})의 길</h3>
+   <p>질문 두 개로 12마리를 모두 맞히는 트리가 만들어졌습니다. 그래프에서 칸이 <b>계단 모양 직사각형</b>으로 나뉘는 것이 결정트리 경계의 특징입니다.</p>
+   <h3>새 펭귄 (${state.treeStar.L.toFixed(1)}, ${state.treeStar.D.toFixed(1)})은?</h3>
    <div class="formula wrapok">${FEAT[ROOT.f].name} ${state.treeStar.L.toFixed(1)} &lt; ${ROOT.t}? → <b>${q1?'예':'아니오'}</b>${q1?'':`<br>${FEAT[SECOND.f].name} ${state.treeStar.D.toFixed(1)} &lt; ${SECOND.t}? → <b>${q2?'예':'아니오'}</b>`}</div>
    <div class="result">예측: <b>${SPC[pr.s].name}</b></div>`;
  }},
@@ -434,13 +434,13 @@ const TREE_STEPS=[
    legend.innerHTML=legendHTML(state.treeFull?'<span><svg width="14" height="14"><circle cx="7" cy="7" r="5.5" fill="none" stroke="var(--bad)" stroke-width="1.8"/></svg>틀린 펭귄</span>':'');
    hint.textContent='';
    const byS=ORDER.map(s=>{const a=pts.filter(p=>p.s===s);const ok=a.filter(p=>treePredict(p).s===s).length;return `<tr><td class="l">${spTag(s)}</td><td>${a.length}</td><td>${ok}</td><td>${a.length?dec(ok/a.length*100,1):'-'}%</td></tr>`}).join('');
-   panel.innerHTML=`<h2>12마리로 배운 규칙, 전체에도 통할까?</h2>
+   panel.innerHTML=`<h2>12마리로 배운 규칙이 전체에도 통할까?</h2>
    <p>이 데이터에는 부리 측정값이 있는 펭귄이 모두 342마리 있습니다. 12마리만 보고 만든 트리를 나머지 펭귄 전부에게 적용해 봅시다.</p>
    <label class="toggle"><input type="checkbox" id="fulltg" ${state.treeFull?'checked':''}> 342마리 모두 보기</label>
    <div class="result ${state.treeFull?'best':''}" style="margin-top:12px">정확도 <span class="big">${dec(acc*100,1)}%</span> <span class="muted">(${pts.length}마리 중 ${pts.length-wrong.length}마리 정답)</span></div>
    <div class="tablewrap"><table><thead><tr><th class="l">종</th><th>마릿수</th><th>정답</th><th>정확도</th></tr></thead><tbody>${byS}</tbody></table></div>
-   ${state.treeFull?`<p>질문 두 개, 계산 몇 줄로 90%를 넘깁니다. 틀린 펭귄들은 대부분 경계선 근처에 있어요.</p>
-   <h3>생각해 볼 점</h3><ul class="tight"><li>부리 길이·깊이처럼 <b>의미 있는 특징이 이미 표로 정리된 데이터</b>에서는 이런 단순한 모델도 매우 잘 작동합니다.</li><li>트리를 계속 깊게 키워 12마리를 억지로 다 맞히게 하면 오히려 새 데이터에서 틀릴 수 있어요(과적합).</li></ul>`:'<p class="muted">체크를 켜서 전체 데이터에 적용한 결과를 확인하세요.</p>'}`;
+   ${state.treeFull?`<p>틀린 펭귄들은 대부분 경계선 근처에 있습니다.</p>
+   <h3>생각해 볼 점</h3><ul class="tight"><li>부리 길이·깊이는 누가 측정했고, 누가 선택했나요? </li><li>경계선에서 틀린 펭귄도 맞히기 위해서는 어떻게 하면 될까요?</li></ul>`:'<p class="muted">체크를 켜서 전체 데이터에 적용한 결과를 확인하세요.</p>'}`;
    panel.querySelector('#fulltg').onchange=e=>{state.treeFull=e.target.checked;TREE_STEPS[6].render()};
  }}
 ];
