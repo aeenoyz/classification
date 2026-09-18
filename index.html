@@ -542,8 +542,8 @@ const KNN_STEPS=[
    <div class="controls"><span class="muted">경계 비교</span><div class="seg" id="tk">${[1,5,11].map(v=>`<button data-k="${v}" class="${v===k?'on':''}">k = ${v}</button>`).join('')}</div></div>
    <h3>1. k는 누가 정하나요?</h3>
    <h3>2. 그래프에서 가장 가까운 k마리를 감싼 선은 거리가 같은 점들의 모임, 원입니다. 그런데 왜 타원으로 보일까요?</h3>
-   <h3>3. 거리가 의미가 있으려면 무엇을 선택해야 할까요?</h3>
-      panel.querySelectorAll('#tk button').forEach(b=>b.onclick=()=>{state.think.k=+b.dataset.k;KNN_STEPS[4].render()});
+   <h3>3. 거리가 의미가 있으려면 무엇을 선택해야 할까요?</h3>`;
+   panel.querySelectorAll('#tk button').forEach(b=>b.onclick=()=>{state.think.k=+b.dataset.k;KNN_STEPS[4].render()});
  }}
 ];
 
